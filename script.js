@@ -1,11 +1,6 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 const taskManagerContainer = document.querySelector(".taskManager");
-const confirmEl = document.querySelector(".confirm");
-const confirmedBtn = confirmEl.querySelector(".confirmed");
-const cancelledBtn = confirmEl.querySelector(".cancel");
-
-let indexToBeDeleted = null;
 
 // Add event listener to the form submit event
 document
@@ -78,7 +73,7 @@ function renderTasks() {
       renderTasks();
     });
 
-    // Delete Button
+    // Delete Button (no confirmation)
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("button-box");
     const delBtnContentEl = document.createElement("span");
@@ -86,11 +81,10 @@ function renderTasks() {
     delBtnContentEl.innerText = "Delete";
     deleteButton.appendChild(delBtnContentEl);
     deleteButton.addEventListener("click", () => {
-      indexToBeDeleted = index;
-      confirmEl.style.display = "block";
-      taskManagerContainer.classList.add("overlay");
+      deleteTask(index); // Direct delete
     });
 
+    // Edit Button
     const editButton = document.createElement("button");
     editButton.classList.add("button-box");
     const editBtnContentEl = document.createElement("span");
@@ -121,3 +115,4 @@ function deleteTask(index) {
   saveTasks();
   renderTasks();
 }
+
