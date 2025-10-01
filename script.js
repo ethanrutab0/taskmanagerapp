@@ -27,6 +27,15 @@ function handleFormSubmit(event) {
     taskInput.value = '';
     renderTasks();
   }
+  editButton.addEventListener('click', () => {
+  const newTaskText = prompt("Edit your task:", task.text);
+  if (newTaskText !== null && newTaskText.trim() !== '') {
+    tasks[index].text = newTaskText.trim();  // Update task text
+    saveTasks();  // Save updated tasks to localStorage
+    renderTasks();  // Re-render the tasks
+  }
+});
+
 }
 
 // Function to save tasks to local storage
