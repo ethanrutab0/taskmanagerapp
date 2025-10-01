@@ -1,11 +1,8 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-const taskManagerContainer = document.querySelector(".taskManager");
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];  
+const taskManagerContainer = document.querySelector(".taskManager");  
 
 // Add event listener to the form submit event
-document
-  .getElementById("taskForm")
-  .addEventListener("submit", handleFormSubmit);
+document.getElementById("taskForm").addEventListener("submit", handleFormSubmit);
 
 // Function to handle form submission
 function handleFormSubmit(event) {
@@ -84,21 +81,28 @@ function renderTasks() {
       deleteTask(index); // Direct delete
     });
 
-    // Edit Button
+    // Edit Button (disabled if completed)
     const editButton = document.createElement("button");
     editButton.classList.add("button-box");
     const editBtnContentEl = document.createElement("span");
     editBtnContentEl.classList.add("blue");
     editBtnContentEl.innerText = "Edit";
     editButton.appendChild(editBtnContentEl);
-    editButton.addEventListener("click", () => {
-      const newTaskText = prompt("Edit your task:", task.text);
-      if (newTaskText !== null && newTaskText.trim() !== "") {
-        tasks[index].text = newTaskText.trim();
-        saveTasks();
-        renderTasks();
-      }
-    });
+
+    if (!task.completed) {
+      editButton.addEventListener("click", () => {
+        const newTaskText = prompt("Edit your task:", task.text);
+        if (newTaskText !== null && newTaskText.trim() !== "") {
+          tasks[index].text = newTaskText.trim();
+          saveTasks();
+          renderTasks();
+        }
+      });
+    } else {
+      editButton.disabled = true; // visually disable button
+      editButton.style.opacity = "0.5"; // show as inactive
+      editButton.style.cursor = "not-allowed";
+    }
 
     taskCard.appendChild(taskText);
     taskCard.appendChild(taskStatus);
@@ -115,4 +119,5 @@ function deleteTask(index) {
   saveTasks();
   renderTasks();
 }
+
 
